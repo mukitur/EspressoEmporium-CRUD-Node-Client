@@ -1,6 +1,47 @@
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const AddCoffee = () => {
+  const handleAddCoffee = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const quantity = form.quantity.value;
+    const supplier = form.supplier.value;
+    const taste = form.taste.value;
+    const category = form.category.value;
+    const details = form.details.value;
+    const photo = form.photo.value;
+
+    const newCoffee = {
+      name,
+      quantity,
+      supplier,
+      taste,
+      category,
+      details,
+      photo,
+    };
+
+    console.log(newCoffee);
+
+    // send data to the server
+    fetch('http://localhost:5500/coffee', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(newCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          swal('Great!', 'Successfully added coffee!', 'success');
+        }
+      });
+  };
+
   return (
     <div className="my-20">
       <Link to="/">
@@ -15,7 +56,7 @@ const AddCoffee = () => {
           letters, as opposed to using Content here.
         </p>
         {/* form start */}
-        <form>
+        <form onSubmit={handleAddCoffee}>
           {/* Form name & quantity Row */}
           <div className="flex flex-col md:flex-row gap-5 w-3/4 mx-auto justify-evenly mb-6">
             <div className="form-control md:w-1/2 ">
@@ -66,7 +107,7 @@ const AddCoffee = () => {
               </label>
               <label className="input-group">
                 <input
-                  name="test"
+                  name="taste"
                   type="text"
                   placeholder="Taste"
                   className="input input-bordered w-full"
