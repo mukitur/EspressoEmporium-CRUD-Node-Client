@@ -1,8 +1,10 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import CoffeeCard from '../CoffeeCard/CoffeeCard';
+import { useState } from 'react';
 
 const Home = () => {
-  const coffees = useLoaderData();
+  const loadedCoffees = useLoaderData();
+  const [coffees, setCoffees] = useState(loadedCoffees);
 
   return (
     <div>
@@ -15,7 +17,12 @@ const Home = () => {
           </Link>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
             {coffees.map((coffee) => (
-              <CoffeeCard key={coffee._id} coffee={coffee} />
+              <CoffeeCard
+                key={coffee._id}
+                coffee={coffee}
+                coffees={coffees}
+                setCoffees={setCoffees}
+              />
             ))}
           </div>
         </div>

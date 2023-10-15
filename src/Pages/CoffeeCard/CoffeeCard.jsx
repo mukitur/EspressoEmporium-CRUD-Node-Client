@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
   //   console.log(coffee);
 
   const { _id, name, quantity, supplier, taste, photo } = coffee;
@@ -20,6 +20,8 @@ const CoffeeCard = ({ coffee }) => {
           console.log(data);
           if (data.deletedCount > 0) {
             swal('Okey!', 'You deleted the coffee!', 'error');
+            const remaining = coffees.filter((cof) => cof._id !== _id);
+            setCoffees(remaining);
           }
         });
     }
